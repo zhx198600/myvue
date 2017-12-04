@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var slide=$(".slide");
+            var slideCon=$(".slide-con");
+            var slideItem=$(".slide-item");
+            var circle=$(".circle");
+            var circleItem=$(".circle li");
+            var bodyWidth=slide.width();
+            circle.css("width",bodyWidth);
+            slideItem.css("width",bodyWidth);
+            var imgCount=slideItem.length;
+            var k=0;
+            var c=k;
+
+//          焦点图轮播
+            $(".slide-con li:first").clone().appendTo(".slide-con");
+            var slideInterval=setInterval(function (){slideImg()},1000);
+            function slideImg(){
+                k++;
+                c=k;
+                if(k>imgCount){
+                    k=1;
+                    slideCon.css("left","0");
+                }
+                //console.log(k);
+                slideCon.stop().animate({left:-k*bodyWidth+"px"}, 1000);/*关键stop()*/
+                $(".circle li").removeClass("active");
+                c=(k===imgCount)?0:k;
+                $(".circle li").eq(c).addClass("active");
+            }
+
+            // 焦点图圆圈轮播
+            function circle_add(){
+                for(i=0;i<imgCount;i++){
+                    circle.append("<li></li>");
+                    $(".circle li:first").addClass("active");
+                }
+            }
+            circle_add();
+            $(".circle li").bind('click',function(){
+                var l=$(this).index();
+                $(this).addClass("active").siblings().removeClass();//当前元素加上class的同时同辈元素去掉class
+                slideCon.stop().animate({"left":-l*bodyWidth},1000);
+            })
+            // 焦点图圆圈轮播
+
+            slide.hover(
+                function () {
+                    clearInterval(slideInterval);
+                    slideInterval=null;
+                },
+                function () {
+                    slideInterval=setInterval(slideImg,1000);
+                });
+
+            $(".right").bind('click', function() {
+                slideImg();
+            });
+            $(".left").bind('click', function() {
+                k--;
+                if(k<0){
+                    k=imgCount-1;
+                    slideCon.css("left",-imgCount*bodyWidth);
+                }
+                slideCon.stop().animate({"left":-k*bodyWidth},1000);
+                $(".circle li").removeClass("active");
+                c=(k===0)?0:k;
+                $(".circle li").eq(c).addClass("active");
+                //alert(k);
+            });
+        })
+
+    </script>
+    <title>图片切换</title>
+</head>
+<body>
+<!-- 图片轮播start -->
+<div class="slide">
+    <ul class="slide-con">
+        <li class="slide-item" style="background:url(img/01.jpg) center center no-repeat;"></li>
+        <li class="slide-item" style="background:url(img/02.jpg) center center no-repeat;"></li>
+        <li class="slide-item" style="background:url(img/03.jpg) center center no-repeat;"></li>
+        <li class="slide-item" style="background:url(img/04.jpg) center center no-repeat;"></li>
+    </ul>
+    <ul class="circle"></ul>
+    <a href="###" class="arrow left">&lt;</a>
+    <a href="###" class="arrow right">&gt;</a>
+</div>
+<!-- 图片轮播end -->
+</body>
+</html>

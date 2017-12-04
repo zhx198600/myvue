@@ -1,0 +1,19 @@
+{
+  "user":[
+    {
+      "id":1,
+      "userName":"alina@126.com",
+      "password":"123123"
+    },
+    {
+      "id":2,
+      "userName":"fatzhao@126.com",
+      "password":"123456"
+    },
+    {
+      "id":3,
+      "userName":"zhx198600@126.com",
+      "password":"888888"
+    }
+  ]
+}
